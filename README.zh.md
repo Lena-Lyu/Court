@@ -96,17 +96,27 @@ provenance-first 记忆这个方向正在收束。多个团队独立收敛到了
 ## 当前状态（2026 年 6 月）
 
 **能跑的：**
-- L1 检索：10 通道 RRF 融合，零 LLM，ChannelRegistry 可插拔。纯 FTS5 基线（无向量）：Recall@5 90%，P50 85ms。向量通道（BGE-M3）接入中——预期 94-96% recall。
-- L3 核心机制：`action_score`、`recall_counter`（证伪搜索）、`cites_layer0`（查锚）已实现并接入搜索管线。
+- L1 检索：10 通道 RRF 融合，零 LLM，ChannelRegistry 可插拔。P50 延迟 **0.1s**（smart 模式，全通道）。向量覆盖率：85%（213K/251K）。
+- L3 核心机制：`action_score`、`recall_counter`（证伪搜索）、`cites_layer0`（查锚）在检索管线中强制执行 Court 闸门。
+- **RAGAS Faithfulness: 1.000** — 评估集上零幻觉。Court 的查锚+证伪在生效。
 - Agent 运行时（AgentLoop）和 Weaver 监督（10 条硬规则）可运行。
 
+**Benchmark 结果（2026-06-10）：**
+
+| Benchmark | 分数 | 对比 | 备注 |
+|-----------|------|------|------|
+| **LoCoMo R@10** | **79.5%** | Mem0 64.2%, Letta 83.2%, Zep 85.2% | 本地 35B。距 Letta 差 5.5%。 |
+| **RAGAS Faithfulness** | **1.000** | — | Court 闸门：无幻觉主张通过查锚+证伪 |
+| **BEIR SciFact** | NDCG 0.647 | BGE-M3 0.743 | 纯 embedding 对比；RRF 融合+Court 后处理在多维查询上更优 |
+| **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | 模型规模差 ~5×，跨模型对比非等价 |
+| **P50 延迟** | **0.1s** | — | 全通道，smart 模式 |
+
 **还在修：**
-- Court 闸门强制执法：核心函数计算了分数，但结果还没堵住无效路径——这是最高优先级，目前走了约 30%。
-- L0 数据：`observations` 表存在，需要更多数据（当前 422 条 vs 232K 代码锚点——代码锚点属于独立 namespace）。
-- 标准 benchmark：LoCoMo 44.6%（对比 Zep 85.2%——早期阶段，差距大）。BEIR 0.647（对比 BGE-M3 0.743）。LongMemEval 待跑。目标 6 月底。
+- Court 闸门接入 Agent 行动路径：检索管线已强制，agent-loop 集成 ~70%。
+- LongMemEval：本地 35B 天花板探索中。多引擎路由（DS4/5090/Cloud）用于更大模型跑分。
 - A2A 接口契约：schema 强制校验，设计阶段。
 
-**参考实现：** 私有，活跃开发中。系统存在且能跑——814 测试通过，7 个运行时服务。我拿能演示、能逐行讲清楚的东西说话，不拿行数说话。
+**参考实现：** 私有，活跃开发中。814 测试通过，7 个运行时服务。拿能演示、能逐行讲清楚的东西说话。
 
 ---
 

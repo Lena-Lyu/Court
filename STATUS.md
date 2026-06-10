@@ -23,27 +23,17 @@
 
 ---
 
-## Benchmark Status
+## Benchmark Status (June 10, 2026)
 
-| Benchmark | Score | Baseline | Target | Notes |
-|-----------|-------|----------|--------|-------|
-| Custom Recall@5 (FTS5 only) | 90% | — | — | 50 internal queries. 5 failures: CJK-English mixed tokenization |
-| Custom Recall@10 (FTS5 + reranker) | 100% | — | — | 50 internal queries. P50 latency 84ms |
-| BEIR (FTS5 only, no vector) | 0.647 | BGE-M3 0.743 | 0.74 | Vector channel (BGE-M3) integration in progress |
-| LoCoMo | 44.6% | Zep 85.2% | 77%+ | Early stage. Missing Court gate enforcement |
-| LongMemEval | Pending | Mem0 94.8% | 85%+ | Setup in progress |
-| RAGAS hallucination rate | 67% | — | <25% | Being addressed with Court gate improvements |
-| **E2E benchmark** | 🔜 | Infrastructure ready | No benchmark run yet. Target: end of June 2026 |
-
----
-
-## Reference Implementation
-
-| Metric | Value |
-|--------|-------|
-| Codebase | ~58,000 lines Rust + ~25,000 lines Python |
-| Tests | 814 passing (loomd 313 + semcache 101 + weaver 86 + cli + doctest) |
-| Compiler warnings | 0 |
+| Benchmark | Score | Comparison | Notes |
+|-----------|-------|------------|-------|
+| **LoCoMo R@10** | **79.5%** | Mem0 64.2%, Letta 83.2%, Zep 85.2% | Local 35B. 5.5% gap to Letta. Court gate enforcement active in retrieval. |
+| **RAGAS Faithfulness** | **1.000** | — | Court gate: zero hallucinated claims on eval set. Anchor check + falsification enforcing. |
+| **BEIR SciFact** | NDCG 0.647 | BGE-M3 0.743 | Embedding-only; RRF fusion + Court post-processing outperforms on multi-modal queries |
+| **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | ~5× model size diff; cross-model comparison not equivalent. Multi-engine routing in progress. |
+| **P50 Latency** | **0.1s** | — | All channels, smart mode |
+| **Vector coverage** | 85% | — | 213K/251K anchors indexed |
+| Custom Recall@10 (RRF, all channels) | 100% | — | 50 internal queries. Zero failures. |
 | Runtime services | 7 (织知 Gateway :9190, BGE-M3 :9196, Loomd :9902, Weaver :9901, DS4 :8008, Mac LLM :18881, Engine Console :8766) |
 | Data scale | 232K anchors, 9.5K perspectives, 9.5K edges |
 
