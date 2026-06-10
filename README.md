@@ -93,26 +93,29 @@ I arrived at the same direction independently — from a different starting poin
 
 ---
 
-## Status (June 2026)
+## Status (June 11, 2026)
 
 **What works:**
-- L1 retrieval: 10-channel RRF fusion, zero-LLM, pluggable ChannelRegistry. P50 latency **0.1s** (smart mode, all channels). Vector coverage: 85% (213K/251K).
-- L3 core mechanisms: `action_score`, `recall_counter` (falsification search), `cites_layer0` (anchor check) enforce Court gates in the retrieval pipeline.
-- **Adversarial safety rate: 97%** — Court's falsification mechanism catches 97% of adversarial queries designed to inject false claims. Unique to Court (no equivalent in Mem0/Letta/Zep).
-- **A2A success rate: 100%** (20/20) — structured agent-to-agent communication with provenance-carrying claims.
+- L1 retrieval: 10-channel RRF fusion, zero-LLM, pluggable ChannelRegistry. P50 latency **0.1s**. Vector coverage: **96.3%** (nearly complete). **Zero anchor loss** in RRF fusion.
+- L3 core mechanisms: `action_score`, `recall_counter` (falsification search), `cites_layer0` (anchor check) enforce Court gates. Court falsification: **100%** success in smart mode.
+- **Adversarial safety: 80%** (target >70%). Unique to Court — no equivalent in Mem0/Letta/Zep.
+- **A2A success: 100%** (20/20) — structured agent-to-agent communication with provenance chains.
+- Agent full-stack operational: session + bootstrap + prefix cache. Successfully modifies files in agent tasks.
 - Agent runtime (AgentLoop) and Weaver supervision (10 hard rules) operational.
 
-**Benchmark results (June 10, 2026):**
+**Benchmark results (June 11, 2026):**
 
 | Benchmark | Score | Comparison | Notes |
 |-----------|-------|------------|-------|
-| **LoCoMo R@10** | **79.5%** | 44.6% → 79.5% (+78%) | Local 35B. Between Mem0 and Zep. |
-| **Adversarial Safety** | **97%** | 0% → 97% (+97pp) | Unique: Court falsification catches injected claims |
-| **BEIR ColBERT** | NDCG **0.737** | BGE-M3 0.743 | 0.006 from BGE-M3 official. ColBERT rerank 0.708. |
-| **RAGAS semCR** | **0.60** | — | +16.5%. 35B, no fine-tuning. |
-| **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | ~5× model size diff; cross-model comparison not equivalent |
-| **P50 Latency** | **0.1s** | 11.5s → 0.1s (-99%) | All channels, smart mode |
-| **A2A Success** | **100%** | — | 20/20 agent-to-agent tasks with provenance chains |
+| **自建 1000 条 (全通道)** | R@10 **49.1%** | FTS5-only 38.5% (+28%) | Top 100: 68%. Long-tail 900: ~47%. Long-tail coverage is current bottleneck. |
+| **LoCoMo (向量)** | MRR **0.521** | Zep R@10 85.2% | ⚠️ MRR ≠ R@10 — different metric, not directly comparable. |
+| **BEIR SciFact (BGE-M3 直调)** | NDCG **0.647** | BGE-M3 0.743 | Embedding-only benchmark. RRF fusion + Court post-processing stronger on multi-modal. |
+| **LongMemEval** | **45%** (35B) | Mem0 94.8% (GPT-4o) | ~5× model size diff. Multi-engine routing in progress for larger-model runs. |
+| **对抗安全** | **80%** | — | Unique. Court falsification catches adversarial false claims. |
+| **Court 证伪** | **100%** (smart) | — | Unique. Falsification search + anchor check enforcement. |
+| **RRF 融合** | **0 锚点丢失** | — | Previously lost anchors during fusion — resolved. |
+| **P50 Latency** | **0.1s** | — | All channels, smart mode. |
+| **A2A Success** | **100%** | — | 20/20 agent-to-agent tasks with provenance chains. |
 
 **What's in progress:**
 - Court gate enforcement on Agent action path: gates active in retrieval pipeline, agent-loop integration ~70%.
