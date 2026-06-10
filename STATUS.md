@@ -30,7 +30,7 @@
 | Benchmark | Score | Comparison | Notes |
 |-----------|-------|------------|-------|
 | **LoCoMo R@10** | **79.5%** | Mem0 64.2%, Letta 83.2%, Zep 85.2% | Local 35B. 5.5% gap to Letta. Court gate enforcement active in retrieval. |
-| **RAGAS Semantic CR | 0.52 | — | 35B, no fine-tuning. Broader than faithfulness.
+| **RAGAS Semantic CR** | 0.52 | — | 35B, no fine-tuning. Broader metric than faithfulness. |
 | **BEIR SciFact** | NDCG 0.647 | BGE-M3 0.743 | Embedding-only; RRF fusion + Court post-processing outperforms on multi-modal queries |
 | **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | ~5× model size diff; cross-model comparison not equivalent. Multi-engine routing in progress. |
 | **P50 Latency** | **0.1s** | — | All channels, smart mode |
