@@ -96,23 +96,25 @@ provenance-first 记忆这个方向正在收束。多个团队独立收敛到了
 ## 当前状态（2026年6月11日）
 
 **能跑的：**
-- L1 检索：10 通道 RRF 融合，零 LLM，ChannelRegistry 可插拔。P50 延迟 **0.1s**（smart 模式，全通道）。向量覆盖率：85%（213K/251K）。
-- L3 核心机制：`action_score`、`recall_counter`（证伪搜索）、`cites_layer0`（查锚）在检索管线中强制执行 Court 闸门。
-- **对抗安全率：97%** — Court 证伪机制拦截 97% 的对抗性虚假注入。Mem0/Letta/Zep 无等价能力。
+- L1 检索：10 通道 RRF 融合，零 LLM，ChannelRegistry 可插拔。P50 延迟 **0.1s**。向量覆盖：**96.3%**。RRF 融合 **0 锚点丢失**。
+- L3 核心机制：`action_score`、`recall_counter`（证伪搜索）、`cites_layer0`（查锚）强制执行。Court 证伪 **100%** (smart)。
+- **对抗安全：80%**（目标 >70%）。独有——Mem0/Letta/Zep 无等价能力。
 - **A2A 成功率：100%** (20/20) — 带 provenance 链的结构化 agent 间通信。
-- Agent 运行时（AgentLoop）和 Weaver 监督（10 条硬规则）可运行。
+- Agent 全栈通：session + bootstrap + prefix cache 正常，成功修改文件。
 
-**Benchmark 结果（2026-06-10）：**
+**Benchmark 结果（2026-06-11）：**
 
 | Benchmark | 分数 | 对比 | 备注 |
 |-----------|------|------|------|
-| **LoCoMo R@10** | **79.5%** | 44.6% → 79.5% (+78%) | 本地 35B。介于 Mem0 和 Zep 之间。 |
-| **对抗安全率** | **97%** | 0% → 97% (+97pp) | 独有：Court 证伪拦截对抗性虚假注入 |
-| **BEIR ColBERT** | NDCG **0.737** | BGE-M3 0.743 | 距 BGE-M3 仅 0.006。ColBERT rerank 0.708。 |
-| **RAGAS semCR** | **0.60** | 0.52 → 0.60 (+16.5%) | 35B，无微调。 |
-| **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | ~5× 模型规模差，跨模型对比非等价 |
-| **P50 延迟** | **0.1s** | 11.5s → 0.1s (-99%) | 全通道，smart 模式 |
-| **A2A 成功率** | **100%** | — | 20/20，带 provenance 链的 agent 间通信 |
+| **自建 1000 条 (全通道)** | R@10 **49.1%** | FTS5-only 38.5% (+28%) | 前 100 条 68%。长尾 900 条拉低。长尾覆盖是当前瓶颈。 |
+| **LoCoMo (向量)** | MRR **0.521** | Zep R@10 85.2% | ⚠️ MRR ≠ R@10——不同指标，不可直接对比。 |
+| **BEIR SciFact (BGE-M3 直调)** | NDCG **0.647** | BGE-M3 0.743 | Embedding-only benchmark。RRF 融合+Court 后处理更强。 |
+| **LongMemEval** | **45%** (35B) | Mem0 94.8% (GPT-4o) | ~5× 模型规模差。多引擎路由进行中。 |
+| **对抗安全** | **80%** | — | 独有。Court 证伪拦截对抗性虚假注入。 |
+| **Court 证伪** | **100%** (smart) | — | 独有。证伪搜索+查锚强制。 |
+| **RRF 融合** | **0 锚点丢失** | — | 之前融合丢锚点——已修复。 |
+| **P50 延迟** | **0.1s** | — | 全通道，smart 模式。 |
+| **A2A 成功率** | **100%** | — | 20/20，带 provenance 链。 |
 
 **还在修：**
 - Court 闸门接入 Agent 行动路径：检索管线已强制，agent-loop 集成 ~70%。
