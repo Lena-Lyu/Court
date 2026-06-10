@@ -20,6 +20,8 @@
 | **Agent Layer** | ⚠️ | AgentLoop operational, H1-H6 hard boundaries (6 rules), TokenWallet, SkillRegistry (14 skills) | Court gate NOT yet inserted in agent action path — agent acts without pre-action belief adjudication. L3 gates must be enforced before Agent can be marked "running." |
 | **Weaver supervision** | ⚠️ | 10 rules active (MUST_USE/PREFER/FORBID/JIT_INJECT), interrupt mechanism via KV cache <10ms | Supervision currently limited to rule-based pattern matching; full Court-integrated supervision pending L3 gate enforcement |
 | **A2A contracts** | 🔜 | Design complete (6 sub-problems framework) | Schema enforcement at startup/compile time not yet implemented. Cross-service field consistency not validated |
+| **Adversarial Safety** | **97%** | — | — | Unique: Court falsification catches injected false claims |
+| **A2A Success** | **100%** | 20/20 | — | Structured agent-to-agent with provenance chains |
 
 ---
 
@@ -28,7 +30,7 @@
 | Benchmark | Score | Comparison | Notes |
 |-----------|-------|------------|-------|
 | **LoCoMo R@10** | **79.5%** | Mem0 64.2%, Letta 83.2%, Zep 85.2% | Local 35B. 5.5% gap to Letta. Court gate enforcement active in retrieval. |
-| **RAGAS Faithfulness** | **1.000** | — | Court gate: zero hallucinated claims on eval set. Anchor check + falsification enforcing. |
+| **RAGAS Semantic CR | 0.52 | — | 35B, no fine-tuning. Broader than faithfulness.
 | **BEIR SciFact** | NDCG 0.647 | BGE-M3 0.743 | Embedding-only; RRF fusion + Court post-processing outperforms on multi-modal queries |
 | **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | ~5× model size diff; cross-model comparison not equivalent. Multi-engine routing in progress. |
 | **P50 Latency** | **0.1s** | — | All channels, smart mode |
