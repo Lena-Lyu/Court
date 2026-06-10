@@ -76,40 +76,35 @@ L3 — On-Demand Adjudication (the courtroom)
 
 ---
 
-## Competitive Landscape (June 2026)
+## Where This Fits (June 2026)
 
-| System | Provenance-first? | Falsification? | Beliefs ephemeral? | A2A framework? | Hard supervision? |
-|--------|:---:|:---:|:---:|:---:|:---:|
-| **Court** | ✅ | ✅ | ✅ | ✅ (6 sub-problems) | ✅ (Weaver) |
-| Eywa (arXiv 2026.5) | ✅ | ❌ | ❌ | ❌ | ❌ |
-| TierMem (ICLR 2025) | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Mem0 | ⚠️ | ❌ | ❌ | ❌ | ❌ |
-| Anthropic Dreaming | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Harness-1 (arXiv 2026.6) | ⚠️ | ❌ | ❌ | ❌ | ❌ |
-| Palantir AIP | ✅ | ❌ | ❌ | ❌ | ⚠️ |
+The field is converging on provenance-first memory. Multiple teams have independently arrived at similar conclusions:
 
-**Five claims that remain unique to Court:**
-1. Provenance as epistemological first principle
-2. Court, not warehouse — beliefs ephemeral, verdicts not archived as truth
-3. Dual hallucination defense — anchor check + falsification
-4. Reversibility gradient — raw text > KV cache > latent space > weights
-5. A2A as six measurable sub-problems — not better protocols, better *messages*
+- **TierMem** (arXiv, Feb 2026) — provenance-aware tiered memory with source pointers. Reduces tokens 54% while keeping accuracy.
+- **Eywa** (arXiv, May 2026) — "evidence before belief," immutable source → verified facts, zero-LLM retrieval.
+- **Harness-1** (arXiv, Jun 2026) — external state harness lets a 20B model outperform GPT-5.4 on search.
+- **Anthropic** — structured sourcing lifted SQL accuracy from 21% → 95%. Dreaming consolidates memory across sessions.
+- **Mem0** — market leader (94.8% LongMemEval), ADD-only extraction.
+- **Palantir AIP** — provenance-aware deletion, enterprise ontology-driven agent memory.
+
+I arrived at the same direction independently — from a different starting point (physics PhD, not CS), through building and breaking things rather than reading papers. What I find least explored, and most interesting, is **active falsification** (searching for counter-evidence, not just checking source anchors) and **orthogonal real-time supervision** (a second model watching the working agent, with hard interrupt capability). I don't claim priority. I'm sharing a set of trade-offs I thought through, and a working core that demonstrates them.
 
 ---
 
 ## Status (June 2026)
 
-| Component | Status | Notes |
-|-----------|--------|-------|
-| Court design | ✅ Complete | Five invariants, three layers, seven-step adjudication |
-| L0 raw storage | ⚠️ Partial | Data population in progress |
-| L1 10-channel RRF | ✅ Running | Pluggable ChannelRegistry |
-| L3 adjudication | ⚠️ Partial | Core functions implemented; gate enforcement under development |
-| Agent + Weaver | ✅ Running | AgentLoop + 10 supervision rules active |
-| A2A contracts | 🔜 Design | Schema enforcement at startup/compile time |
-| E2E benchmark | 🔜 End of June | — |
+**What works:**
+- L1 retrieval: 10-channel RRF fusion, zero-LLM, pluggable ChannelRegistry. Baseline (pure FTS5, no vector): Recall@5 90%, P50 85ms. Vector channel (BGE-M3) being integrated — expecting 94-96% recall.
+- L3 core mechanisms: `action_score`, `recall_counter` (falsification search), `cites_layer0` (anchor check) implemented and called within search pipeline.
+- Agent runtime (AgentLoop) and Weaver supervision (10 hard rules) operational.
 
-**Reference implementation exists:** ~58K Rust + ~25K Python, 814 tests, 7 services. Private during active development.
+**What's in progress:**
+- Court gate enforcement: core functions compute scores, but results don't yet block invalid paths. This is the top priority — currently ~30% of the way there.
+- L0 data: `observations` table exists, needs more data (currently 422 entries vs 232K code anchors — code anchors belong in a separate namespace).
+- Standard benchmarks: LoCoMo 44.6% (vs Zep 85.2% — early stage, major gap). BEIR 0.647 (vs BGE-M3 0.743). LongMemEval pending. Targeting completion end of June.
+- A2A interface contracts: schema enforcement at startup/compile time, in design phase.
+
+**Reference implementation:** private during active development. The system exists and runs — 814 tests passing, 7 runtime services. I lead with what I can demonstrate and explain line-by-line, not with line counts.
 
 ---
 

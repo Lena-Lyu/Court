@@ -76,27 +76,15 @@ The field is converging on a shared insight: **memory reliability is a provenanc
 
 ---
 
-## Five Claims That Remain Unique to Court
+## What I Find Least Explored
 
-As of June 2026, no other system simultaneously claims all five:
+The field is converging. But a few angles I find under-explored, which is where my work focuses:
 
-1. **Provenance as epistemological first principle.** Anthropic's own data validated this (structured sourcing took accuracy from 21% → 95%) but they didn't elevate it to design philosophy. Eywa and TierMem implement provenance mechanisms but don't center their entire framework on it.
+- **Active falsification.** Most provenance systems validate against source (Eywa, TierMem). Few actively search for counter-evidence. Court's `recall_counter` inverts the query against the same index — "does evidence contradict this claim?" — using zero-LLM deterministic search.
+- **Ephemeral beliefs.** Most systems store canonical facts or consolidated memories. Court treats every belief as a verdict reached at query time, logged as a new observation, then discarded. This isn't just a storage choice — it's an epistemological position.
+- **Orthogonal supervision with hard interrupt.** Prompt instructions and rules files are soft constraints. Weaver uses KV cache's fast response time (<10ms) to enable a second model to monitor the working agent and interrupt it mid-action — before garbage compounds.
 
-2. **Courtroom, not warehouse.** All competing systems (Mem0, Supermemory, Dreaming, Eywa) store derived facts or canonical memories persistently. Only Court insists that beliefs must be formed on demand and discarded after use — verdicts logged as observations, never archived as truth.
-
-3. **Dual hallucination defense.** Anchor check (find claims without L0 roots) + falsification search (find claims with fake roots). Eywa has anchor-like validation but no falsification. Anthropic discovered adversarial review independently (+6% accuracy) but abandoned it as too expensive (+72% latency) — Court's local-model falsification path addresses this cost.
-
-4. **Reversibility gradient.** The explicit framework ranking storage trustworthiness (raw text > KV cache > latent space > weights) appears in no other system's design documents. MemoraX AI (March 2026, $10M+ funding) is actively pursuing the opposite: baking memory into model weights via RL.
-
-5. **A2A as six measurable sub-problems.** Anthropic's Multi-Agent Orchestration solves parallel task dispatch but doesn't address "is what was transmitted trustworthy?" or "does the receiver understand my intent?" Court's A2A framework decomposes communication quality into individually optimizable engineering problems — a framework distinct from A2A/MCP transport protocols (which deliberately avoid these questions).
-
----
-
-## What This Means
-
-Court's core insights are being independently validated by top institutions (UIUC/Berkeley, Palantir, Anthropic). Individual mechanisms (provenance pointers, state externalization, adversarial review) are appearing across the field. But the **unified framework** — five invariants spanning memory → agent → multi-agent communication — remains unique.
-
-The convergence validates the direction. The completeness of the framework is the differentiator.
+I don't claim priority on any single mechanism. The convergence of the field toward provenance-first memory validates the direction. I'm sharing a set of trade-offs I thought through, and a working core that demonstrates them.
 
 ---
 

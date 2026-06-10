@@ -17,9 +17,22 @@
 | **L3 recall_counter** | ⚠️ | Negation queries generated, counter-evidence searched | Results computed but don't yet form a hard gate (adjudication decorative, not enforcing) |
 | **L3 cites_layer0** | ⚠️ | Substring matching against L0 anchors implemented | Needs upgrade to content-addressed L0 verification (SHA256 lookup, not substring match) |
 | **L3 verdict** | ⚠️ | Local model path operational; cloud SOTA escalation path exists | Court verdict and agent reasoning currently mixed; need clean separation |
-| **Agent Layer** | ✅ | AgentLoop operational, H1-H6 hard boundaries (6 rules), TokenWallet, SkillRegistry (14 skills) | Court gate NOT yet inserted in agent action path — agent acts without pre-action belief adjudication |
-| **Weaver supervision** | ✅ | 10 rules active (MUST_USE/PREFER/FORBID/JIT_INJECT), interrupt mechanism via KV cache <10ms | — |
+| **Agent Layer** | ⚠️ | AgentLoop operational, H1-H6 hard boundaries (6 rules), TokenWallet, SkillRegistry (14 skills) | Court gate NOT yet inserted in agent action path — agent acts without pre-action belief adjudication. L3 gates must be enforced before Agent can be marked "running." |
+| **Weaver supervision** | ⚠️ | 10 rules active (MUST_USE/PREFER/FORBID/JIT_INJECT), interrupt mechanism via KV cache <10ms | Supervision currently limited to rule-based pattern matching; full Court-integrated supervision pending L3 gate enforcement |
 | **A2A contracts** | 🔜 | Design complete (6 sub-problems framework) | Schema enforcement at startup/compile time not yet implemented. Cross-service field consistency not validated |
+
+---
+
+## Benchmark Status
+
+| Benchmark | Score | Baseline | Target | Notes |
+|-----------|-------|----------|--------|-------|
+| Custom Recall@5 (FTS5 only) | 90% | — | — | 50 internal queries. 5 failures: CJK-English mixed tokenization |
+| Custom Recall@10 (FTS5 + reranker) | 100% | — | — | 50 internal queries. P50 latency 84ms |
+| BEIR (FTS5 only, no vector) | 0.647 | BGE-M3 0.743 | 0.74 | Vector channel (BGE-M3) integration in progress |
+| LoCoMo | 44.6% | Zep 85.2% | 77%+ | Early stage. Missing Court gate enforcement |
+| LongMemEval | Pending | Mem0 94.8% | 85%+ | Setup in progress |
+| RAGAS hallucination rate | 67% | — | <25% | Being addressed with Court gate improvements |
 | **E2E benchmark** | 🔜 | Infrastructure ready | No benchmark run yet. Target: end of June 2026 |
 
 ---
