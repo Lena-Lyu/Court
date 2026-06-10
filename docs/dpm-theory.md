@@ -183,7 +183,6 @@ Consequently, any lower bound on $L$ must involve all three factors. The multipl
 \caption{The three factors of Projection Loss. The product form satisfies the zero-product property: if any factor vanishes, the total advantage vanishes (Lemma 1).}
 \label{fig:factors}
 \end{figure}
-\end{figure}
 
 \section{Architectural Implications}
 
