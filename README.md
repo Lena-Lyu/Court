@@ -106,12 +106,12 @@ I arrived at the same direction independently — from a different starting poin
 
 | Benchmark | Score | Comparison | Notes |
 |-----------|-------|------------|-------|
-| **LoCoMo R@10** | **79.5%** | Mem0 64%, Zep 85% | Local 35B. Between Mem0 and Zep. |
-| **Adversarial Safety** | **97%** | — | Unique: Court falsification catches injected false claims |
-| **BEIR SciFact** | NDCG 0.647 | BGE-M3 0.743 | Embedding-only benchmark; RRF fusion + Court post-processing stronger on multi-modal |
-| **RAGAS Semantic CR** | 0.52 | — | Semantic correctness (35B, no fine-tuning). Broader metric than faithfulness. |
+| **LoCoMo R@10** | **79.5%** | 44.6% → 79.5% (+78%) | Local 35B. Between Mem0 and Zep. |
+| **Adversarial Safety** | **97%** | 0% → 97% (+97pp) | Unique: Court falsification catches injected claims |
+| **BEIR ColBERT** | NDCG **0.737** | BGE-M3 0.743 | 0.006 from BGE-M3 official. ColBERT rerank 0.708. |
+| **RAGAS semCR** | **0.60** | — | +16.5%. 35B, no fine-tuning. |
 | **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | ~5× model size diff; cross-model comparison not equivalent |
-| **P50 Latency** | **0.1s** | — | All channels, smart mode |
+| **P50 Latency** | **0.1s** | 11.5s → 0.1s (-99%) | All channels, smart mode |
 | **A2A Success** | **100%** | — | 20/20 agent-to-agent tasks with provenance chains |
 
 **What's in progress:**

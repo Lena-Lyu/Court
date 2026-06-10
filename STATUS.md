@@ -29,11 +29,11 @@
 
 | Benchmark | Score | Comparison | Notes |
 |-----------|-------|------------|-------|
-| **LoCoMo R@10** | **79.5%** | Mem0 64.2%, Letta 83.2%, Zep 85.2% | Local 35B. 5.5% gap to Letta. Court gate enforcement active in retrieval. |
-| **RAGAS Semantic CR** | 0.52 | — | 35B, no fine-tuning. Broader metric than faithfulness. |
-| **BEIR SciFact** | NDCG 0.647 | BGE-M3 0.743 | Embedding-only; RRF fusion + Court post-processing outperforms on multi-modal queries |
+| **LoCoMo R@10** | **79.5%** | 44.6% → 79.5% (+78%) | Local 35B. Between Mem0 and Zep. Court gates active. |
+| **RAGAS semCR** | **0.60** | — | +16.5%. 35B, no fine-tuning. |
+| **BEIR ColBERT** | NDCG **0.737** | BGE-M3 0.743 | 0.006 from BGE-M3 official. ColBERT rerank 0.708. |
 | **LongMemEval** | 45% (35B) | Mem0 94.8% (GPT-4o) | ~5× model size diff; cross-model comparison not equivalent. Multi-engine routing in progress. |
-| **P50 Latency** | **0.1s** | — | All channels, smart mode |
+| **P50 Latency** | **0.1s** | 11.5s → 0.1s (-99%) | All channels, smart mode |
 | **Vector coverage** | 85% | — | 213K/251K anchors indexed |
 | Custom Recall@10 (RRF, all channels) | 100% | — | 50 internal queries. Zero failures. |
 | Runtime services | 7 (织知 Gateway :9190, BGE-M3 :9196, Loomd :9902, Weaver :9901, DS4 :8008, Mac LLM :18881, Engine Console :8766) |
