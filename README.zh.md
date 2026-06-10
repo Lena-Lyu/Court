@@ -66,6 +66,8 @@ L3 — 用时裁决（法庭）
     6. 用完即弃：判决作为新观察记回 L0，然后丢弃
 ```
 
+**理论基础：** [Why Storage-Time Compression Fails](docs/dpm-theory.pdf) — 用 rate-distortion theory、time-bounded epiplexity 和信息瓶颈方法，从信息论角度分析为什么存原文、查询时按需提取是结构最优的，而非只是偏好。
+
 ---
 
 ## Agent 层 + Weaver 监督者

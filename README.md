@@ -66,6 +66,8 @@ L3 — On-Demand Adjudication (the courtroom)
     6. Disposal: belief logged as new observation, then discarded
 ```
 
+**Theoretical foundation:** [Why Storage-Time Compression Fails](docs/dpm-theory.pdf) — an information-theoretic analysis applying rate-distortion theory, time-bounded epiplexity, and the information bottleneck method to explain why storing raw evidence and deferring extraction to query time is structurally optimal, not just a preference.
+
 ---
 
 ## Agent Layer + Weaver Supervision
